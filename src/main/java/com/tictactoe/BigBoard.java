@@ -20,6 +20,10 @@ public class BigBoard implements BoardSettings {
         board[row][column] = symbol;
     }
     public boolean victory(int row, int column, String symbol) {
+        final int ninimumIndex = 0;
+        final int maximumIndex = 9;
+        final int requiredToWin = 4;
+
         int horizontal = 0;
         int vertical = 0;
         int diagonalLeft = 0;
@@ -40,14 +44,14 @@ public class BigBoard implements BoardSettings {
         int currentColumnRight = column;
         while (upStillCounting || downStillCounting || leftStillCounting || rightStillCounting || upLeftStillCounting ||
                 downRightStillCounting || downLeftStillCounting || upRightStillCounting) {
-            if (currentColumnLeft > 0) {
+            if (currentColumnLeft > ninimumIndex) {
                 currentColumnLeft--;
             } else {
                 leftStillCounting = false;
                 upLeftStillCounting = false;
                 downLeftStillCounting = false;
             }
-            if (currentColumnRight < 9) {
+            if (currentColumnRight < maximumIndex) {
                 currentColumnRight++;
 
             }else {
@@ -56,14 +60,14 @@ public class BigBoard implements BoardSettings {
                 downRightStillCounting = false;
             }
 
-            if (currentRowUp > 0) {
+            if (currentRowUp > ninimumIndex) {
                 currentRowUp--;
             }else {
                 upStillCounting = false;
                 upLeftStillCounting = false;
                 upRightStillCounting = false;
             }
-            if (currentRowDown < 9) {
+            if (currentRowDown < maximumIndex) {
                 currentRowDown++;
             } else {
                 downStillCounting = false;
@@ -96,105 +100,8 @@ public class BigBoard implements BoardSettings {
                 diagonalRight ++;
             } else upRightStillCounting = false;
         }
-        return horizontal >= 4 || vertical >= 4 || diagonalLeft >= 4 || diagonalRight >= 4;
-    }
-
-
-
-    public boolean victoryOld(int row, int column, String symbol){
-        int horizontal = 0;
-        int currentColumn = column;
-        while (true){
-            if (currentColumn > 0){
-                currentColumn --;
-                if (board[row][currentColumn].equals(symbol)){
-                    horizontal ++;
-                }else break;
-            }else break;
-        }
-        currentColumn = column;
-        while (true){
-            if (currentColumn < 9){
-                currentColumn ++;
-                if (board[row][currentColumn].equals(symbol)){
-                    horizontal ++;
-                }else break;
-            }else break;
-        }
-        if (horizontal >= 4){
-            return true;
-        }
-
-        int vertical = 0;
-        int currentRow = row;
-        while (true){
-            if (currentRow > 0){
-                currentRow --;
-                if (board[currentRow][column].equals(symbol)){
-                    vertical ++;
-                }else break;
-            }else break;
-        }
-        currentRow = row;
-        while (true){
-            if (currentRow < 9){
-                currentRow ++;
-                if (board[currentRow][column].equals(symbol)){
-                    vertical ++;
-                }else break;
-            }else break;
-        }
-        if (vertical >= 4) return true;
-
-        int diagonalLeft = 0;
-        currentRow = row;
-        currentColumn = column;
-        while (true){
-            if (currentRow > 0 && currentColumn > 0){
-                currentRow --;
-                currentColumn --;
-                if (board[currentRow][currentColumn].equals(symbol)){
-                    diagonalLeft ++;
-                }else break;
-            }else break;
-        }
-        currentRow = row;
-        currentColumn = column;
-        while (true){
-            if (currentRow < 9 && currentColumn < 9){
-                currentRow ++;
-                currentColumn ++;
-                if (board[currentRow][column].equals(symbol)){
-                    diagonalLeft ++;
-                }else break;
-            }else break;
-        }
-        if (diagonalLeft >= 4) return true;
-
-        int diagonalRight = 0;
-        currentRow = row;
-        currentColumn = column;
-        while (true){
-            if (currentRow < 9 && currentColumn > 0){
-                currentRow ++;
-                currentColumn --;
-                if (board[currentRow][currentColumn].equals(symbol)){
-                    diagonalRight ++;
-                }else break;
-            }else break;
-        }
-        currentRow = row;
-        currentColumn = column;
-        while (true){
-            if (currentRow > 0 && currentColumn < 9){
-                currentRow --;
-                currentColumn ++;
-                if (board[currentRow][column].equals(symbol)){
-                    diagonalRight ++;
-                }else break;
-            }else break;
-        }
-        return (diagonalRight >= 4);
+        return horizontal >= requiredToWin || vertical >= requiredToWin || diagonalLeft >= requiredToWin ||
+                diagonalRight >= requiredToWin;
     }
 
     @Override
