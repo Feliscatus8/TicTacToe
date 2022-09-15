@@ -14,19 +14,53 @@ public class UserInterface {
             System.out.println("Name already taken");
         }
     }
-    public int[] getMove(String player) throws InvalidFieldCoordinatesException{
+
+    public String chooseGameMode(){
+        PlayerInput playerInput = new PlayerInput();
+        System.out.println("Enter 1 for standard game 3x3(default)\nOr enter 2 for extended game 10x10 ");
+        return playerInput.getPlayerInput();
+    }
+    public String[] symbols() {
+        PlayerInput playerInput = new PlayerInput();
+        System.out.println("Enter the first player's symbol (default: X): ");
+        String player1Symbol = playerInput.getPlayerInput().strip().substring(0, 1);
+        if (player1Symbol.equals(" ")) player1Symbol = "X";
+
+        System.out.println("Enter the second player's symbol (default: O): ");
+        String player2Symbol = playerInput.getPlayerInput();
+        if (!player1Symbol.equals(player2Symbol)) return new String[]{player1Symbol, player2Symbol};
+        if (player1Symbol.equals("O")) return new String[]{"O", "X"};
+        return new String[]{player1Symbol, "O"};
+    }
+    public int[] getMove(String player, String[][] board) throws InvalidFieldCoordinatesException{
         PlayerInput playerInput = new PlayerInput();
         System.out.println(player + ", it is your turn\nIn what row do you want to place your symbol?");
         int row = playerInput.getPlayerInt();
         System.out.println(player + ", it is your turn\nIn what column do you want to place your symbol?");
         int column = playerInput.getPlayerInt();
-        if (row < 1 || column < 1 || row > 3 || column > 3) throw new InvalidFieldCoordinatesException("Invalid coordinates");
+        if (row < 1 || column < 1 || row > board.length || column > board.length) throw new InvalidFieldCoordinatesException("Invalid coordinates");
         return new int[]{row - 1, column - 1};
     }
     public void displayBoard(String[][] board){
-        System.out.println("    c c c\n    1 2 3\nr1 |" + board[0][0] + "|" + board[0][1] + "|" + board[0][2] + "|"+
-                "\nr2 |" + board[1][0] + "|" + board[1][1] + "|" + board[1][2] + "|" +
-                "\nr3 |" + board[2][0] + "|" + board[2][1] + "|" + board[2][2] + "|");
+        String rowToDisplay = "     ";
+        String rowToDisplay1 = "     ";
+        for (int n = 1; n < board[0].length + 1; n++){
+            rowToDisplay += "c ";
+            rowToDisplay1 += n + " ";
+        }
+        System.out.println(rowToDisplay);
+        System.out.println(rowToDisplay1);
+        int rowNumber = 0;
+        for (String[] row: board) {
+            rowNumber++;
+            rowToDisplay = "r";
+            if (rowNumber <= 9) rowToDisplay += " ";
+            rowToDisplay += rowNumber + " |";
+            for (String field : row) {
+                rowToDisplay += field + "|";
+            }
+            System.out.println(rowToDisplay);
+        }
     }
     public void displayMessage(String message){
         System.out.println(message);

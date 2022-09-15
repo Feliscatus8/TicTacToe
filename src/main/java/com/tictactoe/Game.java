@@ -5,9 +5,16 @@ import java.util.InputMismatchException;
 public class Game {
 
     public void playGame(){
-        Board board = new Board();
         UserInterface userInterface = new UserInterface();
+        ComputerPlayer computerPlayer = new ComputerPlayer();
         String[] players = userInterface.introduction();
+        String mode = userInterface.chooseGameMode();
+        BoardSettings board;
+        if (mode.equals("2")){
+            board = new BigBoard();
+        }else {
+            board = new Board();
+        }
         int movesMade = 0;
         int currentPlayer = 0;
         String[] symbols = {"X", "O"};
@@ -15,7 +22,12 @@ public class Game {
         while (stillPlaying){
             try {
                 userInterface.displayBoard(board.getBoard());
-                int[] move = userInterface.getMove(players[currentPlayer]);
+                int[] move;
+                if (players[currentPlayer].equalsIgnoreCase("Computer")){
+                    move = computerPlayer.makeMove(board.getBoard());
+                }else {
+                    move = userInterface.getMove(players[currentPlayer], board.getBoard());
+                }
                 board.addMove(move[0], move[1], symbols[currentPlayer]);
                 userInterface.displayBoard(board.getBoard());
                 movesMade ++;
@@ -23,7 +35,7 @@ public class Game {
                     userInterface.displayMessage(players[currentPlayer] + " won the game!");
                     stillPlaying = false;
                 }
-                if (movesMade == 9) {
+                if (movesMade == board.getMaxMoves()) {
                     userInterface.displayMessage("The game was a draw");
                     stillPlaying = false;
                 }
