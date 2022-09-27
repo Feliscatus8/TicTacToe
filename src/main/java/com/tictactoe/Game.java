@@ -16,6 +16,7 @@ public class Game {
             board = new Board();
         }
         int movesMade = 0;
+        int[] lastMove = null;
         int currentPlayer = 0;
         String[] symbols = {"X", "O"};
         boolean stillPlaying = true;
@@ -23,14 +24,17 @@ public class Game {
             try {
                 userInterface.displayBoard(board.getBoard());
                 int[] move;
-                if (players[currentPlayer].equalsIgnoreCase("Computer")){
+                if (players[currentPlayer].equalsIgnoreCase("Computer")) {
                     move = computerPlayer.makeMove(board.getBoard());
-                }else {
+                } else if (players[currentPlayer].equalsIgnoreCase("advanced computer")) {
+                    move = computerPlayer.makeMove(board.getBoard(), lastMove, symbols[(currentPlayer + 1)%2]);
+            }else {
                     move = userInterface.getMove(players[currentPlayer], board.getBoard());
                 }
                 board.addMove(move[0], move[1], symbols[currentPlayer]);
                 userInterface.displayBoard(board.getBoard());
                 movesMade ++;
+                lastMove = move;
                 if (board.victory(move[0], move[1], symbols[currentPlayer])) {
                     userInterface.displayMessage(players[currentPlayer] + " won the game!");
                     stillPlaying = false;

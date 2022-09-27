@@ -20,7 +20,7 @@ public class BigBoard implements BoardSettings {
         board[row][column] = symbol;
     }
     public boolean victory(int row, int column, String symbol) {
-        final int ninimumIndex = 0;
+        final int minimumIndex = 0;
         final int maximumIndex = 9;
         final int requiredToWin = 4;
 
@@ -44,7 +44,7 @@ public class BigBoard implements BoardSettings {
         int currentColumnRight = column;
         while (upStillCounting || downStillCounting || leftStillCounting || rightStillCounting || upLeftStillCounting ||
                 downRightStillCounting || downLeftStillCounting || upRightStillCounting) {
-            if (currentColumnLeft > ninimumIndex) {
+            if (currentColumnLeft > minimumIndex) {
                 currentColumnLeft--;
             } else {
                 leftStillCounting = false;
@@ -60,7 +60,7 @@ public class BigBoard implements BoardSettings {
                 downRightStillCounting = false;
             }
 
-            if (currentRowUp > ninimumIndex) {
+            if (currentRowUp > minimumIndex) {
                 currentRowUp--;
             }else {
                 upStillCounting = false;
