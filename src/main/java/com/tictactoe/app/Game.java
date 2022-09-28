@@ -1,26 +1,25 @@
-package com.tictactoe;
+package com.tictactoe.app;
+
+import com.tictactoe.exception.InvalidFieldCoordinatesException;
+import com.tictactoe.exception.SpaceTakenException;
+import com.tictactoe.interaction.UserInterface;
+import com.tictactoe.modes.BoardSettings;
+import com.tictactoe.opponent.ComputerPlayer;
 
 import java.util.InputMismatchException;
 
 public class Game {
 
-    public void playGame(){
+    public int playGame(String[] players, BoardSettings board) {
         UserInterface userInterface = new UserInterface();
         ComputerPlayer computerPlayer = new ComputerPlayer();
-        String[] players = userInterface.introduction();
-        String mode = userInterface.chooseGameMode();
-        BoardSettings board;
-        if (mode.equals("2")){
-            board = new BigBoard();
-        }else {
-            board = new Board();
-        }
+
         int movesMade = 0;
         int[] lastMove = null;
         int currentPlayer = 0;
         String[] symbols = {"X", "O"};
         boolean stillPlaying = true;
-        while (stillPlaying){
+        while (stillPlaying) {
             try {
                 userInterface.displayBoard(board.getBoard());
                 int[] move;
@@ -37,7 +36,7 @@ public class Game {
                 lastMove = move;
                 if (board.victory(move[0], move[1], symbols[currentPlayer])) {
                     userInterface.displayMessage(players[currentPlayer] + " won the game!");
-                    stillPlaying = false;
+                    return currentPlayer;
                 }
                 if (movesMade == board.getMaxMoves()) {
                     userInterface.displayMessage("The game was a draw");
@@ -53,6 +52,6 @@ public class Game {
 
             }
         }
+        return -1;
     }
-
 }

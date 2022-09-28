@@ -1,4 +1,4 @@
-package com.tictactoe;
+package com.tictactoe.opponent;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Random;
 
 public class ComputerPlayer {
-    public int[] makeMove(String[][] board){
+    public int[] makeMove(String[][] board) {
         List<int[]> fieldsList = new ArrayList<>();
-        for (int row = 0; row < board.length; row ++){
-            for (int column = 0; column < board[0].length; column ++){
+        for (int row = 0; row < board.length; row ++) {
+            for (int column = 0; column < board[0].length; column ++) {
                 fieldsList.add(new int[]{row, column});
             }
         }
@@ -21,7 +21,7 @@ public class ComputerPlayer {
         int possibleMovesSize = possibleMoves.size();
         return possibleMoves.get(random.nextInt(possibleMovesSize));
     }
-    public int[] makeMove(String[][] board, int[] lastMove, String opponentSymbol){
+    public int[] makeMove(String[][] board, int[] lastMove, String opponentSymbol) {
         if (lastMove == null) return makeMove(board);
         final int minimumIndex = 0;
         final int maximumIndex = board.length - 1;
@@ -89,8 +89,8 @@ public class ComputerPlayer {
                     horizontal++;
                 } else if (board[lastMove[0]][currentColumnLeft].equals(" ")) {
                     horizontalMoves.add(new int[]{lastMove[0], currentColumnLeft});
-                    if (currentColumnLeft > minimumIndex){
-                        if (board[lastMove[0]][currentColumnLeft - 1].equals(opponentSymbol)){
+                    if (currentColumnLeft > minimumIndex) {
+                        if (board[lastMove[0]][currentColumnLeft - 1].equals(opponentSymbol)) {
                             horizontal++;
                         }
                     }
@@ -102,8 +102,8 @@ public class ComputerPlayer {
                     horizontal++;
                 } else if (board[lastMove[0]][currentColumnRight].equals(" ")) {
                     horizontalMoves.add(new int[]{lastMove[0], currentColumnRight});
-                    if (currentColumnRight > maximumIndex){
-                        if (board[lastMove[0]][currentColumnRight + 1].equals(opponentSymbol)){
+                    if (currentColumnRight > maximumIndex) {
+                        if (board[lastMove[0]][currentColumnRight + 1].equals(opponentSymbol)) {
                             horizontal++;
                         }
                     }
@@ -113,13 +113,11 @@ public class ComputerPlayer {
             if (upStillCounting) {
                 if (board[currentRowUp][lastMove[1]].equals(opponentSymbol)) {
                     vertical++;
-                    System.out.println("vertical is: " + vertical);
                 } else if (board[currentRowUp][lastMove[1]].equals(" ")) {
                     verticalMoves.add(new int[]{currentRowUp, lastMove[1]});
-                    if (currentRowUp > minimumIndex){
-                        if (board[currentRowUp - 1][lastMove[1]].equals(opponentSymbol)){
+                    if (currentRowUp > minimumIndex) {
+                        if (board[currentRowUp - 1][lastMove[1]].equals(opponentSymbol)) {
                             vertical++;
-                            System.out.println("vertical is: " + vertical);
                         }
                     }
                     upStillCounting = false;
@@ -128,14 +126,11 @@ public class ComputerPlayer {
             if (downStillCounting){
                 if (board[currentRowDown][lastMove[1]].equals(opponentSymbol)) {
                     vertical++;
-                    System.out.println("vertical is: " + vertical);
                 } else if (board[currentRowDown][lastMove[1]].equals(" ")) {
                     verticalMoves.add(new int[]{currentRowDown, lastMove[1]});
-                    if (currentRowDown < maximumIndex){
-                        System.out.println("in range");
-                        if (board[currentRowDown + 1][lastMove[1]].equals(opponentSymbol)){
+                    if (currentRowDown < maximumIndex) {
+                        if (board[currentRowDown + 1][lastMove[1]].equals(opponentSymbol)) {
                             vertical++;
-                            System.out.println("vertical is: " + vertical);
                         }
                     }
                     downStillCounting = false;
@@ -144,13 +139,11 @@ public class ComputerPlayer {
             if (upLeftStillCounting) {
                 if (board[currentRowUp][currentColumnLeft].equals(opponentSymbol)) {
                     diagonalLeft++;
-                    System.out.println("diagonal left is" + diagonalLeft);
                 } else if (board[currentRowUp][currentColumnLeft].equals(" ")) {
                     diagonalLeftMoves.add(new int[]{currentRowUp, currentColumnLeft});
-                    if (currentRowUp > minimumIndex && currentColumnLeft > minimumIndex){
-                        if (board[currentRowUp - 1][currentColumnLeft - 1].equals(opponentSymbol)){
+                    if (currentRowUp > minimumIndex && currentColumnLeft > minimumIndex) {
+                        if (board[currentRowUp - 1][currentColumnLeft - 1].equals(opponentSymbol)) {
                             diagonalLeft++;
-                            System.out.println("diagonal left is" + diagonalLeft);
                         }
                     }
                     upLeftStillCounting = false;
@@ -161,8 +154,8 @@ public class ComputerPlayer {
                     diagonalLeft++;
                 } else if (board[currentRowDown][currentColumnRight].equals(" ")) {
                     diagonalLeftMoves.add(new int[]{currentRowDown, currentColumnRight});
-                    if (currentRowDown < maximumIndex && currentColumnRight < maximumIndex){
-                        if (board[currentRowDown + 1][currentColumnRight + 1].equals(opponentSymbol)){
+                    if (currentRowDown < maximumIndex && currentColumnRight < maximumIndex) {
+                        if (board[currentRowDown + 1][currentColumnRight + 1].equals(opponentSymbol)) {
                             diagonalLeft++;
                         }
                     }
@@ -174,8 +167,8 @@ public class ComputerPlayer {
                     diagonalRight++;
                 } else if (board[currentRowDown][currentColumnLeft].equals(" ")) {
                     diagonalRightMoves.add(new int[]{currentRowDown, currentColumnLeft});
-                    if (currentRowDown < maximumIndex && currentColumnLeft > minimumIndex){
-                        if (board[currentRowDown + 1][currentColumnLeft - 1].equals(opponentSymbol)){
+                    if (currentRowDown < maximumIndex && currentColumnLeft > minimumIndex) {
+                        if (board[currentRowDown + 1][currentColumnLeft - 1].equals(opponentSymbol)) {
                             diagonalRight++;
                         }
                     }
@@ -187,8 +180,8 @@ public class ComputerPlayer {
                     diagonalRight++;
                 } else if (board[currentRowUp][currentColumnRight].equals(" ")) {
                     diagonalRightMoves.add(new int[]{currentRowUp, currentColumnRight});
-                    if (currentRowUp > minimumIndex && currentColumnRight < maximumIndex){
-                        if (board[currentRowUp - 1][currentColumnRight + 1].equals(opponentSymbol)){
+                    if (currentRowUp > minimumIndex && currentColumnRight < maximumIndex) {
+                        if (board[currentRowUp - 1][currentColumnRight + 1].equals(opponentSymbol)) {
                             diagonalRight++;
                         }
                     }

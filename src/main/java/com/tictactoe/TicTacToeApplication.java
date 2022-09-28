@@ -1,9 +1,12 @@
 package com.tictactoe;
 
+import com.tictactoe.app.GameManager;
+
 public class TicTacToeApplication {
 
 	public static void main(String[] args) {
-		Game game = new Game();
-		game.playGame();
+		GameManager manager = new GameManager();
+		manager.playGame();
+
 	}
 }

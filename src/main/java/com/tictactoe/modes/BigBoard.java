@@ -1,4 +1,6 @@
-package com.tictactoe;
+package com.tictactoe.modes;
+
+import com.tictactoe.exception.SpaceTakenException;
 
 public class BigBoard implements BoardSettings {
     private final String[][] board = {{" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
@@ -13,7 +15,7 @@ public class BigBoard implements BoardSettings {
             {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "}};
     private final int maxMoves = 100;
 
-    public void addMove(int row, int column, String symbol) throws SpaceTakenException{
+    public void addMove(int row, int column, String symbol) throws SpaceTakenException {
         if (!board[row][column].equals(" ")){
             throw new SpaceTakenException("The space number " + row + ", " + column + " is already taken");
         }

@@ -1,5 +1,8 @@
 package com.tictactoe;
 
+import com.tictactoe.exception.SpaceTakenException;
+import com.tictactoe.modes.BigBoard;
+import com.tictactoe.modes.Board;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +12,7 @@ public class TicTacToeTestSuite {
     @Nested
     class testBoard{
         @Test
-        void testAddMove() throws SpaceTakenException{
+        void testAddMove() throws SpaceTakenException {
             //Given
             Board board = new Board();
 
