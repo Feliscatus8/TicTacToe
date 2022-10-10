@@ -3,7 +3,9 @@ package com.tictactoe.statistics;
 import com.tictactoe.interaction.UserInterface;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ResultsManager {
@@ -99,11 +101,16 @@ public class ResultsManager {
 
     public void saveResults() {
         UserInterface userInterface = new UserInterface();
-        Map[] rankingsArray = {winsAgainstPlayers, winsAgainstAdvancedComputer, winsAgainstComputer, lossesAgainstPlayers,
-        lossesAgainstAdvancedComputer, lossesAgainstComputer};
+        List<Map<String, Integer>> rankingsList = new ArrayList<>();
+        rankingsList.add(winsAgainstPlayers);
+        rankingsList.add(winsAgainstAdvancedComputer);
+        rankingsList.add(winsAgainstComputer);
+        rankingsList.add(lossesAgainstPlayers);
+        rankingsList.add(lossesAgainstAdvancedComputer);
+        rankingsList.add(lossesAgainstComputer);
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(savedStatistics));
-            oos.writeObject(rankingsArray);
+            oos.writeObject(rankingsList);
             oos.close();
         }catch (Exception e) {
             userInterface.displayMessage("Saving to file failed: " + e);
@@ -115,15 +122,14 @@ public class ResultsManager {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(savedStatistics));
             Object readMap = ois.readObject();
-            if (readMap instanceof Map[]) {
-                Map<String, Integer>[] rankingsArray = new Map[6];
-                System.arraycopy((Map[])readMap, 0, rankingsArray, 0, 6);
-                this.winsAgainstPlayers.putAll(rankingsArray[0]);
-                this.winsAgainstAdvancedComputer.putAll(rankingsArray[1]);
-                this.winsAgainstComputer.putAll(rankingsArray[2]);
-                this.lossesAgainstPlayers.putAll(rankingsArray[3]);
-                this.lossesAgainstAdvancedComputer.putAll(rankingsArray[4]);
-                this.lossesAgainstComputer.putAll(rankingsArray[5]);
+            if (readMap instanceof List) {
+                List<Map<String, Integer>> rankingsList = new ArrayList<Map<String, Integer>>((ArrayList<Map<String, Integer>>) readMap);
+                this.winsAgainstPlayers.putAll(rankingsList.get(0));
+                this.winsAgainstAdvancedComputer.putAll(rankingsList.get(1));
+                this.winsAgainstComputer.putAll(rankingsList.get(2));
+                this.lossesAgainstPlayers.putAll(rankingsList.get(3));
+                this.lossesAgainstAdvancedComputer.putAll(rankingsList.get(4));
+                this.lossesAgainstComputer.putAll(rankingsList.get(5));
             }
             ois.close();
         }catch (Exception e) {

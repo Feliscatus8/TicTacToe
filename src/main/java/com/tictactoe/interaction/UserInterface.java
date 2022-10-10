@@ -1,7 +1,5 @@
 package com.tictactoe.interaction;
 
-
-import com.tictactoe.app.GameManager;
 import com.tictactoe.exception.InvalidFieldCoordinatesException;
 import com.tictactoe.modes.BigBoard;
 import com.tictactoe.modes.Board;
@@ -9,10 +7,8 @@ import com.tictactoe.modes.BoardSettings;
 import com.tictactoe.statistics.ResultsManager;
 
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class UserInterface {
 
@@ -61,8 +57,12 @@ public class UserInterface {
 
     public int[] getMove(String player, String[][] board) throws InvalidFieldCoordinatesException {
         PlayerInput playerInput = new PlayerInput();
-        System.out.println(player + ", it is your turn\nIn what row do you want to place your symbol?");
+        System.out.println(player + ", it is your turn\nIn what row do you want to place your symbol?\n " +
+                "if you want to exit type 0");
         int row = playerInput.getPlayerInt();
+        if (row == 0) {
+            if (saveAndExit()) return new int[]{-1, -1};
+        }
         System.out.println(player + ", it is your turn\nIn what column do you want to place your symbol?");
         int column = playerInput.getPlayerInt();
         if (row < 1 || column < 1 || row > board.length || column > board.length) throw new InvalidFieldCoordinatesException("Invalid coordinates");
@@ -168,5 +168,12 @@ public class UserInterface {
         for (String result: rankingList) {
             System.out.println(result);
         }
+    }
+
+    public boolean saveAndExit() {
+        PlayerInput playerInput = new PlayerInput();
+        System.out.println("Do you really want to quit? y/n(default)");
+        String reply = playerInput.getPlayerInput();
+        return reply.equalsIgnoreCase("y");
     }
 }

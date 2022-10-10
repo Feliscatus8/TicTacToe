@@ -3,8 +3,8 @@ package com.tictactoe.modes;
 import com.tictactoe.exception.SpaceTakenException;
 
 public class Board implements BoardSettings {
-    private final String[][] board = {{" ", " ", " "}, {" ", " ", " "}, {" ", " ", " "}};
-    private final int maxMoves = 9;
+    private final String[][] board = new String[][] {{" ", " ", " "}, {" ", " ", " "}, {" ", " ", " "}};
+    private final static int MAX_MOVES = 9;
 
     public void addMove(int row, int column, String symbol) throws SpaceTakenException {
         if (!board[row][column].equals(" ")){
@@ -21,7 +21,7 @@ public class Board implements BoardSettings {
     }
 
     public int getMaxMoves() {
-        return maxMoves;
+        return MAX_MOVES;
     }
 
     public String[][] getBoard() {

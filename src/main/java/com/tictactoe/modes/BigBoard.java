@@ -2,18 +2,23 @@ package com.tictactoe.modes;
 
 import com.tictactoe.exception.SpaceTakenException;
 
-public class BigBoard implements BoardSettings {
+import java.io.Serializable;
+
+public class BigBoard implements BoardSettings, Serializable {
     private final String[][] board = {{" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
-            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
-            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
-            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
-            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
-            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
-            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
-            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
-            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
-            {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "}};
-    private final int maxMoves = 100;
+        {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+        {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+        {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+        {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+        {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+        {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+        {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+        {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "},
+        {" ", " ", " ", " ", " ", " ", " ", " ", " ", " "}};
+    private final static int MAX_MOVES = 100;
+    private final static int MINIMUM_INDEX = 0;
+    private final static int MAXIMUM_INDEX = 9;
+    private final static int REQUIRED_TO_WIN = 4;
 
     public void addMove(int row, int column, String symbol) throws SpaceTakenException {
         if (!board[row][column].equals(" ")){
@@ -22,10 +27,6 @@ public class BigBoard implements BoardSettings {
         board[row][column] = symbol;
     }
     public boolean victory(int row, int column, String symbol) {
-        final int minimumIndex = 0;
-        final int maximumIndex = 9;
-        final int requiredToWin = 4;
-
         int horizontal = 0;
         int vertical = 0;
         int diagonalLeft = 0;
@@ -46,14 +47,14 @@ public class BigBoard implements BoardSettings {
         int currentColumnRight = column;
         while (upStillCounting || downStillCounting || leftStillCounting || rightStillCounting || upLeftStillCounting ||
                 downRightStillCounting || downLeftStillCounting || upRightStillCounting) {
-            if (currentColumnLeft > minimumIndex) {
+            if (currentColumnLeft > MINIMUM_INDEX) {
                 currentColumnLeft--;
             } else {
                 leftStillCounting = false;
                 upLeftStillCounting = false;
                 downLeftStillCounting = false;
             }
-            if (currentColumnRight < maximumIndex) {
+            if (currentColumnRight < MAXIMUM_INDEX) {
                 currentColumnRight++;
 
             }else {
@@ -62,14 +63,14 @@ public class BigBoard implements BoardSettings {
                 downRightStillCounting = false;
             }
 
-            if (currentRowUp > minimumIndex) {
+            if (currentRowUp > MINIMUM_INDEX) {
                 currentRowUp--;
             }else {
                 upStillCounting = false;
                 upLeftStillCounting = false;
                 upRightStillCounting = false;
             }
-            if (currentRowDown < maximumIndex) {
+            if (currentRowDown < MAXIMUM_INDEX) {
                 currentRowDown++;
             } else {
                 downStillCounting = false;
@@ -102,13 +103,13 @@ public class BigBoard implements BoardSettings {
                 diagonalRight ++;
             } else upRightStillCounting = false;
         }
-        return horizontal >= requiredToWin || vertical >= requiredToWin || diagonalLeft >= requiredToWin ||
-                diagonalRight >= requiredToWin;
+        return horizontal >= REQUIRED_TO_WIN || vertical >= REQUIRED_TO_WIN || diagonalLeft >= REQUIRED_TO_WIN ||
+                diagonalRight >= REQUIRED_TO_WIN;
     }
 
     @Override
     public int getMaxMoves() {
-        return maxMoves;
+        return MAX_MOVES;
     }
 
     public String[][] getBoard() {

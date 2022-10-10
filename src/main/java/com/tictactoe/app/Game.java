@@ -6,19 +6,21 @@ import com.tictactoe.interaction.UserInterface;
 import com.tictactoe.modes.BoardSettings;
 import com.tictactoe.opponent.ComputerPlayer;
 
+import java.io.Serializable;
 import java.util.InputMismatchException;
 
-public class Game {
+public class Game implements Serializable {
+    private int movesMade = 0;
+    private int[] lastMove = null;
+    private int currentPlayer = 0;
+
 
     public int playGame(String[] players, BoardSettings board) {
         UserInterface userInterface = new UserInterface();
         ComputerPlayer computerPlayer = new ComputerPlayer();
-
-        int movesMade = 0;
-        int[] lastMove = null;
-        int currentPlayer = 0;
         String[] symbols = {"X", "O"};
         boolean stillPlaying = true;
+
         while (stillPlaying) {
             try {
                 userInterface.displayBoard(board.getBoard());
@@ -30,6 +32,7 @@ public class Game {
             }else {
                     move = userInterface.getMove(players[currentPlayer], board.getBoard());
                 }
+                if (move[0] == -1) return -4;
                 board.addMove(move[0], move[1], symbols[currentPlayer]);
                 userInterface.displayBoard(board.getBoard());
                 movesMade ++;
